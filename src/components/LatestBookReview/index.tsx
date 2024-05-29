@@ -51,7 +51,9 @@ export function LatestBookReviews() {
 
     return (
         <LatestBookReviewContainer>
-            <LastReadBook />
+            { session.status === 'authenticated' && data?.lastRead && (
+                <LastReadBook lastRead={data?.lastRead} />
+            )}
             <h2>Avaliações mais recentes</h2>
 
             <div>
