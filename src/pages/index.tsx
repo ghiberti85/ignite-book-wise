@@ -3,6 +3,7 @@ import { ChartLineUp } from "@phosphor-icons/react"
 import { NextPageWithLayout } from './_app'
 import { ReactElement } from 'react'
 import { DefaultLayout } from '@/layouts/DefaultLayout'
+import { PopularBooks } from "@/components/PopularBooks"
 
 const HomePage: NextPageWithLayout = () => {
   return (
