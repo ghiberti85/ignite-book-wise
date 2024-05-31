@@ -4,6 +4,7 @@ import { NextPageWithLayout } from './_app'
 import { ReactElement } from 'react'
 import { DefaultLayout } from '@/layouts/DefaultLayout'
 import { PopularBooks } from "@/components/PopularBooks"
+import { LatestBookReviews } from "@/components/LatestBookReview"
 
 const HomePage: NextPageWithLayout = () => {
   return (

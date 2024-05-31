@@ -1,6 +1,7 @@
 import { ReactNode } from "react"
 import { Layout } from './styles'
 import Head from "next/head"
+import { Sidebar } from "@/components/Sidebar"
 
 interface DefaultLayoutProps {
     title: string
