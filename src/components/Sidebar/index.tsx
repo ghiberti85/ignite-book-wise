@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { Binoculars, ChartLineUp, SignIn, SignOut, User } from "@phosphor-icons/react";
 import logo from '@/assets/logo.png'
 import Image from 'next/image'
+import { Avatar } from "../Avatar";
 
 export function Sidebar() {
     const { data: session, status } = useSession()
