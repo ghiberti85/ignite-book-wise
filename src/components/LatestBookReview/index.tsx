@@ -6,6 +6,7 @@ import { api } from "@/lib/axios";
 import { Avatar } from "../Avatar";
 import Link from "next/link";
 import { formatDate } from "date-fns";
+import { DialogBook } from "../DialogBook";
 
 interface User {
     id: string

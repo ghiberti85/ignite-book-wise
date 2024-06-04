@@ -5,6 +5,7 @@ import { CaretRight } from '@phosphor-icons/react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/axios';
 import { Book, PopularBooksContainer } from './styles';
+import { DialogBook } from '../DialogBook';
 
 interface PopularBooksData {
     books: {
