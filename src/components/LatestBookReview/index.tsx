@@ -3,6 +3,7 @@ import { Book, BookCardRating, LatestBookReviewContainer } from "./styles";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/axios";
+import { Avatar } from "../Avatar";
 
 interface User {
     id: string
@@ -55,7 +56,7 @@ export function LatestBookReviews() {
                 <LastReadBook lastRead={data?.lastRead} />
             )}
             <h2>Avaliações mais recentes</h2>
-
+`                                                                   Q§Z`
             <div>
                 <DialogBook>
                     <BookdCard>

@@ -1,7 +1,10 @@
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image'
-import { Book, PopularBooksContainer } from './styles';
 import { CaretRight } from '@phosphor-icons/react';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '@/lib/axios';
+import { Book, PopularBooksContainer } from './styles';
 
 interface PopularBooksData {
     books: {
@@ -15,6 +18,11 @@ interface PopularBooksData {
 }
 
 export function PopularBooks() {
+    const { data } = useQuery(['popular-books'], async () => {
+        const response = await api.get('/books/popular')
+
+        return (response.data as PopularBooksData) ?? []
+    })
     return (
         <PopularBooksContainer>
             <h2>
@@ -25,22 +33,24 @@ export function PopularBooks() {
             </h2>
 
             <div>
-                <DialogBook>
-                    <Book>
-                        <Image 
-                            src={''} 
-                            alt={''}
-                            height={94}
-                            width={64}
-                        />
-                        <div>
-                            <h3></h3>
-                            <h4></h4>
-
-                            <Rating />
-                        </div>
-                    </Book>
-                </DialogBook>
+                {data?.books.map((book) => (
+                    <DialogBook>
+                        <Book>
+                            <Image 
+                                src={book.cover_url} 
+                                alt={book.name}
+                                height={94}
+                                width={64}
+                            />
+                            <div>
+                                <h3>{book.name}</h3>
+                                <h4>{book.author}</h4>
+    
+                                <Rating rate={book.avg_rating} disabled={true}/>
+                            </div>
+                        </Book>
+                    </DialogBook>
+                ))}
             </div>
         </PopularBooksContainer>
     )
