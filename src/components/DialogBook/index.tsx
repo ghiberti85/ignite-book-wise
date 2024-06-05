@@ -1,7 +1,10 @@
 import { api } from "@/lib/axios"
+import * as Dialog from "@radix-ui/react-dialog"
 import { useQuery } from "@tanstack/react-query"
-import { useSession } from "next-auth/react"
-import { ReactNode, useState } from "react"
+import { signIn, useSession } from "next-auth/react"
+import { ReactNode, useCallback, useEffect, useState } from "react"
+import { Content, Overlay, Rate, Ratings, Trigger } from "./styles"
+import { X } from "@phosphor-icons/react"
 
 interface Ratings {
     id: string
@@ -71,5 +74,118 @@ export function DialogBook({ bookId, children }: DialogBookProps) {
         }
     )
 
-    return()
+    const handleOpenAddNewRating = useCallback(() => {
+        setIsOpenAddNewRating(true)
+    }, [])
+    
+    const handleOpenUpdateRating = useCallback(() => {
+        setIsOpenUpdateRating(true)
+    }, [])
+
+    const handleSignIn = useCallback(
+        async (provider: string) => {
+            await signIn(provider, { callbackUrl: '/explorer '})
+            handleOpenAddNewRating()
+
+            localStorage.setItem(
+                '@book-wise:dialog-book-state-1.0.0',
+                JSON.stringify(open)
+            )
+
+            localStorage.setItem(
+                '@book-wise:bookId-state-1.0.0',
+                JSON.stringify(bookId)
+            )
+
+            localStorage.setItem(
+                '@book-wise:open-add-new-rating-state-1.0.0',
+                JSON.stringify(isOpenAddNewRating)
+            )
+        },
+        [bookId, handleOpenAddNewRating, isOpenAddNewRating, open]
+    )
+
+    const handleCloseAddNewRating = useCallback(() => {
+        setIsOpenAddNewRating(false)
+    }, [])
+
+    const handleCloseUpdateRating = useCallback(() => {
+        setIsOpenUpdateRating(false)
+    }, [])
+
+    useEffect(() => {
+        const storedDialogState = localStorage.getItem(
+            '@book-wise:dialog-book-state-1.0.0'
+        )
+        const storedBookId = localStorage.getItem('@book-wise:bookId-state-1.0.0') 
+        const storedOpenAddNewRating = localStorage.getItem(
+            '@book-wise:open-add-new-rating-state-1.0.0'
+        )
+
+        if(storedDialogState && storedBookId && storedOpenAddNewRating) {
+            setOpen(JSON.parse(storedDialogState))
+            setStoredBookId(JSON.parse(storedBookId))
+            setIsOpenAddNewRating(JSON.parse(storedOpenAddNewRating ?? ''))
+        }
+    }, [])
+
+    const bookAlreadyRated = data?.book.ratings.find(
+        (rating) => rating.user_id === session.data?.user.id
+    )
+
+
+    return(
+        <Dialog.Root open={open} onOpenChange={setOpen}>
+            <Trigger>{children}</Trigger>
+
+            <Dialog.Portal>
+                <Overlay />
+                <Content>
+                    <Dialog.Close>
+                        <X size={24} />
+                    </Dialog.Close>
+
+                    <DialogBookCard book={data?.book} />
+
+                    <Rate>
+                        <h3>Avaliações</h3>
+
+                        {isAuthenticated === 'unauthenticated' ? (
+                            <DialogSignIn 
+                                handleOpenAddNewRating={handleOpenAddNewRating}
+                                handleSignIn={handleSignIn}
+                            />
+                        ) : bookAlreadyRated ? (
+                            <button onClick={handleOpenUpdateRating}>
+                                Editar sua avaliação
+                            </button>
+                        ) : (
+                            <button onClick={handleOpenAddNewRating}>Avaliar</button>
+                        )}
+                    </Rate>
+
+
+                    <Ratings>
+                        {isOpenAddNewRating && isAuthenticated === 'authenticated' && (
+                            <FormAddNewRating 
+                                bookId={data?.book.id}
+                                handleCloseAddNewRating={handleCloseAddNewRating}
+                            />
+                        )}
+
+                        {isOpenUpdateRating && isAuthenticated === 'authenticated' && (
+                            <FormUpdateRating 
+                                rating={bookAlreadyRated}
+                                handleCloseUpdateRating={handleCloseUpdateRating}
+                            />
+                        )}
+
+                        {data?.book?.ratings?.map((rating) => (
+                            <DialogRatingCard rating={rating} key={rating.id} />
+                        ))}
+                    </Ratings>
+                </Content>
+            </Dialog.Portal>
+        </Dialog.Root>
+    )
 }
