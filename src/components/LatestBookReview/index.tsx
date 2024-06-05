@@ -7,6 +7,7 @@ import { Avatar } from "../Avatar";
 import Link from "next/link";
 import { formatDate } from "date-fns";
 import { DialogBook } from "../DialogBook";
+import { Rating } from "../Rating";
 
 interface User {
     id: string

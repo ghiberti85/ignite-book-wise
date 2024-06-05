@@ -1,7 +1,6 @@
 import { signOut, useSession } from "next-auth/react";
 import { Aside, SignOutLink, StyledLink, UserLogged } from "./styles";
 
-
 import { usePathname } from 'next/navigation'
 import { Binoculars, ChartLineUp, SignIn, SignOut, User } from "@phosphor-icons/react";
 import logo from '@/assets/logo.png'

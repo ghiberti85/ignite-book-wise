@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/axios';
 import { Book, PopularBooksContainer } from './styles';
 import { DialogBook } from '../DialogBook';
+import { Rating } from '../Rating';
 
 interface PopularBooksData {
     books: {
@@ -47,7 +48,7 @@ export function PopularBooks() {
                                 <h3>{book.name}</h3>
                                 <h4>{book.author}</h4>
     
-                                <Rating rate={book.avg_rating} disabled={true}/>
+                                <Rating rate={book.avg_rating} disabled={true} />
                             </div>
                         </Book>
                     </DialogBook>
