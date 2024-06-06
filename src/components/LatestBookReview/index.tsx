@@ -8,6 +8,8 @@ import Link from "next/link";
 import { formatDate } from "date-fns";
 import { DialogBook } from "../DialogBook";
 import { Rating } from "../Rating";
+import { LastReadBook } from "../LastReadBook";
+import { LimitedText } from "../LimitedText";
 
 interface User {
     id: string

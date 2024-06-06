@@ -36,7 +36,7 @@ export function PopularBooks() {
 
             <div>
                 {data?.books.map((book) => (
-                    <DialogBook>
+                    <DialogBook key={book.id} bookId={book.id}>
                         <Book>
                             <Image 
                                 src={book.cover_url} 

@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from "next/link"
 import { formatDate } from "@/utils/format-date"
 import { Rating } from "../Rating"
+import { LimitedText } from "../LimitedText"
 
 interface LastReadBookProps {
     lastRead?: {
