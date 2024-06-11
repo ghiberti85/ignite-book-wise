@@ -35,6 +35,63 @@ export function PrismaAdapter(
             }
         },
 
-        
+        async getUserByEmail(email) {
+            const user = await prisma.user.findUnique({
+                where: {
+                    email,
+                },
+            })
+
+            if(!user) return null
+            
+            return {
+                ...user,
+                avatar_url: user.avatar_url!,
+                emailVerified: null,
+            }
+        },
+
+        async getUserByAccount({ providerAccountId, provider }) {
+            const account = await prisma.account.findUnique({
+                where: {
+                    provider_provider_account_id: {
+                        provider_account_id: providerAccountId,
+                        provider,
+                    },
+                },
+                include: {
+                    user: true,
+                },
+            })
+
+            if(!account) return null
+
+            const { user } = account 
+
+            return {
+                ...user,
+                avatar_url: user.avatar_url!,
+                emailVerified: null,
+            }
+        },
+
+        async updateUser(user) {
+            const updatedUser = await prisma.user.update({
+                where: {
+                    id: user.id,
+                },
+                data: {
+                    name: user.name,
+                    email.user.email,
+                    avatar_url: user.avatar_url,
+                },
+            })
+
+            return {
+                ...updatedUser,
+                avatar_url: updateUser.avatar_url!,
+                emailVerified: null,
+            }
+        },
     }
 }
