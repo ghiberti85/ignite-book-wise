@@ -1,3 +1,4 @@
+import { use } from "react"
 import { prisma } from "../prisma"
 
 export function PrismaAdapter(
@@ -127,6 +128,36 @@ export function PrismaAdapter(
                 sessionToken,
                 userId,
                 expires,
+            }
+        },
+
+        async getSessionAndUser(sessionToken) {
+            const prismaSession = await prisma.session.findUnique({
+                where: {
+                    session_token: sessionToken,
+                },
+                include: {
+                    user: true,
+                },
+            })
+
+            if(!prismaSession) return null
+            
+            const { user, ...session } = prismaSession
+
+            return {
+                session: {
+                    userId: session.user_id,
+                    expires: session.expires,
+                    sessionToken: session.session_token,
+                },
+                user: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email!,
+                    avatar_url: user.avatar_url!,
+                    emailVerfified: null,
+                },
             }
         },
     }
