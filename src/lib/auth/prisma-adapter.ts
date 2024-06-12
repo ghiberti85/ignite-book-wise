@@ -183,8 +183,8 @@ export function PrismaAdapter(
             await prisma.session.delete({
                 where: {
                     session_token: sessionToken,
-                }
+                },
             })
-        }
+        },
     }
 }
