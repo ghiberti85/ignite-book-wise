@@ -1,3 +1,5 @@
+import { prisma } from "../prisma"
+
 export function PrismaAdapter(
     req: NextApiRequest | NextPageContext['req'],
     res: NextApiResponse | NextPageContext['res']
@@ -110,6 +112,22 @@ export function PrismaAdapter(
                     session_state: account.session_state,
                 },
             })
+        },
+
+        async createSession({ sessionToken, userId, expires }) {
+            await prisma.session.create({
+                data: {
+                    user_id: userId,
+                    expires,
+                    session_token: sessionToken,
+                },
+            })
+
+            return {
+                sessionToken,
+                userId,
+                expires,
+            }
         },
     }
 }
