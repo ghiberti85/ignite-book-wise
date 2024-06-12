@@ -1,4 +1,4 @@
-import { use } from "react"
+import { use, useReducer } from "react"
 import { prisma } from "../prisma"
 
 export function PrismaAdapter(
@@ -160,5 +160,31 @@ export function PrismaAdapter(
                 },
             }
         },
+
+        async updateSession({ sessionToken, userId, expires }) {
+            const prismaSession = await prisma.session.update({
+                where: {
+                    session_token: sessionToken,
+                },
+                data: {
+                    user_id: userId,
+                    expires,
+                },
+            })
+
+            return {
+                sessionToken: prismaSession.session_token,
+                userId: prismaSession.user_id,
+                expires: prismaSession.expires,
+            }
+        },
+
+        async deleteSession(sessionToken) {
+            await prisma.session.delete({
+                where: {
+                    session_token: sessionToken,
+                }
+            })
+        }
     }
 }
