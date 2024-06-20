@@ -1,68 +1,39 @@
-import { styled } from 'styled-components'
-import * as Dialog from '@radix-ui/react-dialog'
+import styled from 'styled-components'
 
-export const Trigger = styled(Dialog.Trigger)`
-  all: unset;
-  cursor: pointer;
-`
+export const DialogRatingCardContainer = styled.div`
+  padding: 1.5rem;
+  background: ${(props) => props.theme.colors.gray[700]};
+  border-radius: 8px;
 
-export const Overlay = styled(Dialog.Overlay)`
-  position: fixed;
-  inset: 0;
-  background: ${(props) => props.theme.colors.black};
-  opacity: 0.6;
-`
-
-export const Content = styled(Dialog.Content)`
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem 3rem 0;
-  overflow-y: auto;
-  position: fixed;
-  width: 41.25rem;
-  right: 0;
-  top: 0;
-  height: 100%;
-  background: ${(props) => props.theme.colors.gray[800]};
-
-  > button {
-    all: unset;
-    cursor: pointer;
+  a {
     display: flex;
-    align-items: center;
-    align-self: end;
-    margin-bottom: 1rem;
+    column-gap: 1rem;
+  }
 
-    svg {
-      color: ${(props) => props.theme.colors.gray[400]};
-    }
+  p {
+    margin-top: 1.25rem;
+    font-size: ${(props) => props.theme.fontSizes.sm}};
+    line-height: 160%;
+    color: ${(props) => props.theme.colors.gray[300]};
   }
 `
 
-export const Rate = styled.div`
+export const UserInfo = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-top: 2.5rem;
-  margin-bottom: 1rem;
+  flex-direction: column;
+  flex: 1;
+
 
   h3 {
-    font-size: ${(props) => props.theme.fontSizes.md};
-    line-height: 160%;
-    color: ${(props) => props.theme.colors.gray[200]};
-  }
-
-  button {
-    all: unset;
-    cursor: pointer;
     font-weight: bold;
-    line-height: 160%;
-    font-size: ${(props) => props.theme.fontSizes.md};
-    color: ${(props) => props.theme.colors.purple[100]};
+    color: ${(props) => props.theme.colors.gray[100]};
+    font-size: ${(props) => props.theme.fontSizes.md}};
+    line-height: 140%;
   }
-`
 
-export const Ratings = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 0.75rem;
+  span {
+    color: ${(props) => props.theme.colors.gray[400]};
+    font-size: ${(props) => props.theme.fontSizes.sm};
+    line-height: 160%;
+  }
 `
